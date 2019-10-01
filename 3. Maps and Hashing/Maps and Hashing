@@ -1,0 +1,146 @@
+
+
+
+
+Sets
+    An extention of a collection that is somewhat comparable to a list, except for one major difference.
+
+    1) A List has some kind of ordering for its elements, while, a Set doesn't.
+    2) A Set doesn't allow for repeated elements. (no 2 of the same values are allowed in a Set)
+
+
+Maps:
+    A Map is a Set based data structure kind of like how an Array is a List based data structure.
+
+    Map = <Key, Value>
+    A group of Keys is a Set. The Keys in a Map need to be Unique.
+
+    What are Maps useful for?
+    Things that have unique names/ids can be stored and looked up based on ID.
+
+    In Python, the Map concept is built-in as a datatype called a dictonary.
+
+
+
+Hashing:
+
+Using a Data Structure that employs a Hash Function allows us to do lookups in Constant time instead of linear time(look through every element)
+
+Hash Functions:
+    They key idea of a Hash Function is to transform a value into one that can be stored and retrieved easily.
+
+    Value -> Hash Function (A Formula) -> Hash Value (an index in an Array)
+
+    A Common Patter for a Hash Function is:
+        1) Take the last few digits of a long number you want to convert into a Hash Value.
+        2) Divide it by some consitant number, and using the remainder as the index it should be stored into in an array.
+
+    
+Collisions:
+    There are times where an two values that are used as inputs into a Hash Function can lead to the same hash value,
+    and thus should be stored in the same index of the array.
+
+    This is called a Collision.
+
+
+    There are two ways of solving this issue:
+        1) Change the value in the hash function so there are more than enough slots to store potential values. (increase the range of potential values)
+        2) Keep the function the same, but instead of only storing the value in the Hash Value index, we can store an array of values so that
+            both values are stored in an Array indexed with the same Hash Value
+
+            These Lists are called Buckets.
+        
+    Problems:
+        1) changing your hash function, means moving data in your data structure, which is wrong.
+        2) With the Bucket approach, you lose the constant lookup time of a hashing.
+
+    Often you have to choose between making a hash function that spreads out your values nicely but uses alot of space,
+     and a hash function that uses less buckets, but might have to do some searching within each bucket.
+
+    Ideally you only want to have 1 to 3 elements stored in each bucket.
+
+
+    A Creative solution is to use one Hash Function, and if it leads to a collision, use a second hash function for the buckets.
+
+
+    In Order to get a sense of how "full" a hash table is, we can define a Load Factor
+
+    Load Factor = # of Entries/ # of Buckets
+
+    If Load Factor is < 1, there are still some empty Buckets.
+    If Load Factor is >=1, there will always be collisions.
+
+    If you are trying to store values that are multiples of 5, don't also have a hash function that is a multiple of 5. It will lead to many collisions.
+    You should divide by a number larger than the number of values you wish to store.
+
+
+
+Hash Maps:
+
+    One of the main places we will see hash functions show up.
+
+    In Previous Hashing Examples, we were just using a Hash Function to find a place that we can store Keys.
+    Key -> Hash Function -> Hash Value [Key]
+
+    Maps however have Keys and values.
+    With a Hash Map, we can use the Keys as inputs, to a hash function, then store the key,value pair in the location of the Hash Value.
+
+    <Key, Value> 
+    Key -> hash function -> Hash Value (index of) [<key, value>]
+
+    Because Keys in a Map are Unqiue, since the Keys belong to a Set, we know that if we use a Hash Function with the Keys, we can give them each their own unqiue buckets.
+
+    We can also design a hash function do allow for collisions.
+
+    The constant time lookup of a Hash Map can really speed up code.
+
+
+Notes: A Hash Table is just a table of Keys and Hash Values that are outputs of a Hash Function.
+
+
+
+String Keys:
+
+    Keys can also be strings.
+    We just need to come up with some Hash Function that can convert letters into numbers (for Example, just using an ASCII Table for individual letters)
+
+    We can combine ASCII values with a formula to get a unique Hash value for each letter.
+
+    So what do we want the Hash Function to be?
+
+    Again, there are some tradoffs.
+        Do we  want every word in its own bucket?
+        Are we okay with collisions, but want a relatively simple hash function?
+
+    If we have 30 or less words, there is nothing wrong with only considering the ASCII value for the first letter of the String as the Hash Value.
+
+    The standard Hash Code function for String Keys in Java, perfers a Larger Hash table over one that has many collisions.
+
+    Formula for Java Hash Code:
+        s[0]*31^(n-1) + s[1]*31^(n-2)+ .... + s[n-1]
+
+        31 has been used for CPU Optimization back in the day (a shift of bits and a subtraction for the multiplication)
+        Now it is more of an unecessary convention as more complex and usefull hash function have been discovered.
+
+    Example: Udacity
+    U = 85 in ASCII
+    D = 68 in ASCII
+    (85*31^1) + 68 = 2703
+
+    ASCII Values for common characters are 32 to 126
+
+    This Hash Function is designed so that we can guarentee, that every Hash Value will be unique to that string.
+    The uniqueness is something that will mean that there are no collisions possible.
+
+    However, the trade off is that even a string with 4 letters will have a Large Hash value.
+
+    Ex. 'Hash' -> 72*31^3 + 65*31^2 + 83*31 + 72 = 2210062
+    H = 72
+    A = 65
+    S = 83
+    H = 72
+
+    The tradeoff is important. Having a unique hashvalue is great, as long as we have the space for it.
+
+    
+

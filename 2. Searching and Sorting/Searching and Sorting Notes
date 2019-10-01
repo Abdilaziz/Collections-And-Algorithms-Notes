@@ -1,0 +1,263 @@
+
+Many Algorithms use Recurrsion: A function that calls itself to repeat the same steps over an over in order to get a task completed.
+    Recursive functions must have a Base case (return a value so it will eventaully stop i.e. stopping condition ) and call itself when it is not the base case.
+        Alter the input parameter on the function calling itself, that way it will eventually reach the base condition.
+
+Ex. 
+def get_fib(position):
+    if position == 0 or position == 1:
+        return position
+    return get_fib(position - 1) + get_fib(position - 2)
+
+
+
+Searching: Does a certain element exists in this data structure???
+
+Array Searching:
+
+    Naive Approach:
+        Searching by default means that you loop through every element in the array and compare it to the one
+        you are searching for. O(n)
+
+    Algorithm: Binary Search
+        Searching an Array is much easier if the array is already sorted (Ex. Numbers Lowest to Highest)
+
+        1. Start at the middle of your array. (if length is an odd number you can choose convention of picking the greater side or the lesser side, just be consistant )
+        2. Compare if it is higher or lower than the number you are searching for.
+            If it is lower, you can focus on the half of the array with elements that have a higher number.
+            If it is higher, you can focus on the half of the array with elements that have a lower number.
+        3. Repeatedly start at the half point and repeat until it is found.
+
+        O(log(n)) Iterations Note: in Programming default is Log based 2
+
+        TIP FOR FINDING EFFICENCY: You can make a chart of Array Size and Iterations it takes to complete in the worst case. IN this case worst case can be tested by searching for the last item in the array (greatest number) and on the cases of an odd length array, choose the lower side.
+                                    You can find a pattern by based on the array size and the number of iterations.
+
+
+
+Sorting: Changing the Order of Elements in a List. Ex. from least to greatest?
+
+    Naive Approach:
+        Compare the current element to every other element until everything is in order.
+        Worst Case: O(n^2) 
+
+        Ex. Bubble Sort: Compare elements side by side, and switch them when necessary
+                In each iteration, the largest element in the array will bubble up to the top. Each iteration is about n-1 comparisons.
+                Can be optimized to not have a comparison for the last elements in the array after they have already bubbled up to the top from previous iterations.
+
+                Worst and Avg Case are: O(n^2) <- n comparrisons at n steps
+                Best Case (already sorted array): O(n)
+
+            Bubble Sort is an Inplace Sorting algorithm (meaning it has a space complexity of O(1) )
+
+        Selection Sort: Given an array of N items and L = 0
+                            1. Find the position of the smallest item X, in range [L ... N-1]
+                            2. Swap X with L-th item
+                            3. Increase the Lower bound L by 1 and repeat until L = N-2
+                        
+                        Time:
+                            Worst Case: O(n^2)
+
+                        Space:
+                            This is a Inplace Algorithm: O(1)
+
+
+
+        Insertion Sort: Similar to how people arrange cards in poker.
+                        1. Start with on card in your hand.
+                        2. Pick the next card and insert it into its proper sorted order.
+                        3. Repeat prev step untill all cards are inserted.
+                    
+                        Time:
+                            Best Case: O(n) Already sorted, no shifting required
+                            Worst Case: O(n^2)
+
+
+    Sorting Algorithm Types:
+        Inplace:
+            Rearranges elements in the data structure they are already in without the need of copying everything to a new data structure.
+            Low Space Complexity. (not recreating the entire data strucutre)
+        Not Inplace:
+            Requires to copy elements to a new data structure when sorting.
+            High Space Complexity. (recreates entire data structure) (Bad for large data structures)
+
+        
+    Merge Sort
+    
+        Idea is to split an array into as small pieces as possible, then build it back up over time while doing comparisons to ensure the right order.
+        
+        The idea of breaking up an array, sorting its parts, and building it up again 
+        is an example of a Divide and Conquer Algorithm.
+
+        Several efficient sorting algorithms use Divide and Conquer.
+
+        1. Break up array into many arrays with one element each.
+        2. Build it back up to arrays with a size of 2 (if the total number of elements was originally odd, the element that is not paired up can be at the begining or at the end depending on implementation)
+        3. When elements from the size 1 array are being combined in the size 2 array, they are compared and ordered.
+        4. Then do the same with an array of size 3.
+        5. Repeat comparisions and bigger arrays until complete.
+
+        Each step of comparisons has an upper bound on total number of comparrisons of the total number of elements in the original array.
+        Ex. If the total size of the array you are sorting is 7, the max number of comparrisons possible at each step is 7.
+
+        Worst : O(n*log(n)) <- max of n comparisons for log(n) steps
+
+        This is not an Inplace sorting algorithm.
+            Extra Space/ Auxillary Space = O(n)
+            
+            We were creating a new arrays at each step and getting rid of old ones.
+            So in total, at one period of time, we had a max of n arrays (first part of divide).
+
+
+        Types: 
+            Top-Down Merge Sort:
+                Merge Sort where the merges are done to the same array.
+                One array is getting larger and larger as each sub array is merged to it.
+            Bottom-up Merge Sort:
+                Merge Sort where each sub-array is merged together until they can all be combined into one large array.
+
+    
+    Quick Sort:
+
+        1. Pick a value in the array. (this value is called a Pivot)
+        2. Move all values larger than it to a higer index, and all values lower than it to a lower index.
+        3. Continue recursively picking a pivot in the lower and upper sections of the array, sorting them similarly until the whole array is sorted.
+
+        Ex. [8,3,1,7,0,10,2]
+            A convention is to Pick the last element of the array as our pivot.
+            8>2 and therefore goes to the right of 2.
+            Note: 10 is moved to the position of 8 to make room for 8 to be on the right of 2.
+                    This is an Inplace Algorithm
+
+            [10,3,1,7,0,2,8]
+            Now 10 is bigger than 2.
+
+            [0,3,1,7,2,10,8]
+            Since 0 is smaller than 2, we move on to the next element in the array.
+            3>2 so it moves.
+
+            [0,7,1,2,3,10,8]
+
+            [0,1,2,7,3,10,8]
+            At this point we know that everything in the array before 2 is infact smaller than 2.
+            Therefore we know 2 is in the right position, and is not required to be moved ever again.
+
+            Now we can see if the smaller part is in the right order.
+            We pick 1 to be our new Pivot.
+
+            Compare 1 to 0 and now we know that 1 is infact in the right place.
+            Now we know both 0 and 1 are in the right spot.
+
+            Now we pick 8 as our new Pivot for the other half of the array.
+            7 and 3 are less than 8, so 10 is the only movement.
+
+            [0,1,2,7,3,8,10]
+            Again we know that 8 and 10 is in the correct position.
+            
+            3 is the new pivot, and compare.
+            [0,1,2,3,7,8,10]
+            Complete!
+
+
+        Calculating the Time Efficiency is complex for Quick Sort.
+        Worst Case?: If pivots are already in the correct Place (IE. Highest values is already on the correct location)
+                     We do a comparison to every other value in the array. (n-1 comparissons)
+                     If the next pivot is also the larget, it is another (n-2 comparissons)
+                     This is similar to bubble sort in a way. Due to comparing the Pivot to every other element in the Array.
+                    
+                    Therefore the worst case for Quick Sort is O(n^2)
+        
+        Best Case and Avg Case: O(n*log(n))
+                    Best Case is the Pivot will move to the middle of the array allowing us to divide the array in Half Every Time!
+                    Cutting it in half and comparing is similar in concept to Merge sort, which is way it is n*log(n)
+
+                    On average, the Pivot we choose (which is random) will move somewhere in the middle so it is similar.
+        
+        Therefore: If we are trying to sort arrays that are already near sorted, Quick Sort is not a good algorithm to chosse due to pivots not moving to the middle.
+
+        Optimizations:
+            1. When your pivot has completed movement, and we have 2 halves to sort, we can sort both of them independently at the same time.
+            2. Instead of selecting the last element as the pivot, we can look at the last few elements, and select he median of them as the Pivot. (Gives a better sense of what should be in the middle of the array, leading to a better result)
+
+        This is an Inplace Algorithm so its Space Efficiency is O(1)
+
+
+
+
+NON COMPARISSON BASED Algorithms
+http://visualgo.net/en/sorting/
+
+Counting Sort:
+
+    Time:
+        O(n) on average.
+    Space:
+        O(k) where k is the range/number of buckets required. 
+
+Ex: [2,3,8,7,1,2,2,2,7,3,9,8,2,1,4,2,4,6,9,2]
+
+Assumption: If the items to be sorted are Integers with small range, we can count the frequency of occurrence of each Integer (in that small range) 
+            and then loop through that small range to output the items in sorted order.
+
+
+Try Counting Sort on the example array above where all Integers are within [1..9], thus we just need to count 
+how many times Integer 1 appears, Integer 2 appears, ..., Integer 9 appears, and then loop through 1 to 9 
+to print out x copies of Integer y if frequency[y] = x.
+
+The time complexity is O(N) to count the frequencies and O(N+k) to print out the output in sorted order 
+where k is the range of the input Integers, which is 9-1+1 = 9 in this example. 
+
+The time complexity of Counting Sort is thus O(N+k), which is O(N) if k is small.
+
+
+We will not be able to do the counting part of Counting Sort when k is relatively big due to memory limitation, 
+as we need to store frequencies of those k integers.
+
+
+
+
+Radix Sort:
+
+    Time:
+        O(n) Avg
+    Space:
+        O(k) where k is the number of Queues required at max (10 queue for numbers 0 to 9 ) each queue has
+
+    Ex. [3221,1,10,9680,577,9420,7,5622,4793,2030,3138,82,2599,743,4127]
+
+
+    Assumption: If the items to be sorted are Integers with large range but of few digits, we can combine 
+    Counting Sort idea with Radix Sort to achieve the linear time complexity.
+
+
+    In Radix Sort, we treat each item to be sorted as a string of w digits 
+    (we pad Integers that have less than w digits with leading zeroes if necessary).
+
+    From the least significant (rightmost) digit to the most significant digit (leftmost), we pass through the N items 
+    and put them according to the active digit into 10 Queues (one for each digit [0..9]), which is like a 
+    modified Counting Sort as this one preserves stability. Then we re-concatenate the groups again for subsequent 
+    iteration.
+
+    Notice that we only perform O(w × (N+k)) iterations. In this example, w = 4 and k = 10.
+
+
+Ways to Measure Sorting Algorithms other than time:
+
+1. Inplace (for space complexity)
+2. Stable Sort
+
+    A sorting algorithm is called stable if the relative order of elements with the same key value 
+    is preserved by the algorithm after sorting is performed.
+
+    Example application of stable sort: 
+        Assume that we have student names that have been sorted in alphabetical order. Now, if this list is sorted again by 
+        tutorial group number (recall that one tutorial group usually has many students), a stable sort algorithm would ensure 
+        that all students in the same tutorial groups still appear in alphabetical order of their names.
+
+3. Caching Performance
+
+
+
+
+
+

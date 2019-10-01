@@ -1,0 +1,258 @@
+Shortest Path Algorithm
+
+    Question: Finding the shortest path in a Graph.
+
+        For edges with weights (for distance), this invovles finding the path with the sum of edges being a minimum.
+
+        If there are no weights to each edge, the shortest path is one with the fewest edges taken, 
+        which is the result of Breadth First Search.
+        
+
+    One solution to the shortest path problem for weighted, undirected graphs is called:
+    Dijkstra's Algorithm:
+
+        We begin by giving all verticies a distance value.
+        Distance: the sum of edge weights of a path from the starting point to this vertex.
+
+        This distance at the end of the algorithm will be the distance of the shortest path.
+
+        Distance values for each node are initialized as infinitiy, and updated when the notes are found.
+
+        The starting Node has a distance of 0, adjacent nodes have the weight asociated with the edge, and etc.
+
+        A common implementation of Dijkstra uses a Min Priority Queue, where the element with a minimum priority, or minimum distance, can be removed efficiently.
+
+        You then use "extract min" on the min priority queue, and extract the vertex with the smallest value, which initialy is the starting node with a value of 0.
+
+        From the starting node you follow each edge and update each nodes distance value in the min priority queue.
+
+        Afterwards the second node chosen is the one with the smallest distance (extracted from the min priority queue)
+
+        Because we always pick the node with the lowest distance value to check next, Dijkstra is sometimes called a Greedy algorithm.
+
+        A Greedy algorithm is classified by deciding to pick an option by whatever option looks better at the moment.
+
+        At this point you update the distance values to nodes in the min priority queue if the distance is smaller than the value already stored.
+
+        You keep going and extract the minimum distance from the queue and keep going through the graph.
+
+        You kep going until the node you are looking for has been extracted from the queue, or everything else has a distance of infinitiy, which means the path you are looking for doesn't exist.
+
+        Runtime:
+            It is the number of verticies squared.
+                O( |V|^2 )
+            This is because in the worst case you visit every node in the graph once or twice, and every time you do visit a vertex you need to search through the queue to find the minimum element.
+
+            There are many optimization to this algorithm however, and if the function of the priority queue is optimized, it is more like:
+                O( |E| + |V|*log( |V| )  )
+
+
+
+Knapsack Problem:
+
+    You have a bag with a limited weight capacity, and more items than can fit in it.
+    Each item has a weight, and a value.
+
+    How can I optimize the total value of items in my bag given the wieght limit?
+
+    Lets focus on the 0-1 Knapsack Problem where:
+        1) You only have 1 of each item.
+        2) You must either take, or leave the entire.
+
+        There are other examples of this problem where you can take a fraction of an item.
+
+    Initially, it may seem fine to just pick the objects with the heighest values first and place them in the knapsack,
+        however, what if the heighest value objects hit the weight limit,
+        and what if all the other items added up to a higher value with a lower weight than the objects with the heighest value?
+
+    This is a pretty common issue that needs to be handled in Optimization Problems.
+
+
+    Brute Force Solution?
+        We can just try every combination of items and just pick the best combination.
+        This solution is however O(2^n) where n is the number of items.
+
+    Faster:
+        What if instead of getting the Max Value for the Maximum Weight,
+        we tried to get max value for the smallest weights possible, then kept adding them together until we had a max weight?
+
+    Ex.
+        Create an Array to store the max possible value for every weight up until the weight limit.
+        If your weight limit is 6, create and array with index from 1 to 6. (weights are positive intigers)
+        After that you initialize the values for each weight as 0.
+        
+            [0,0,0,0,0,0] <- index from 1 to 6
+
+        Items:
+            Weight:  2     5      4
+            Value:   6     9      5
+    
+        Afterwards you look at your items and fill in the array.
+        You take out the item with a weight of 2, and set all the values in the array with a weight (index) of 2 or more with the value of 6.
+
+            [ 0, 6, 6, 6, 6, 6 ]
+
+        We base the best value on that one object.
+        Then with the nextt object, we replace the array with index of 5 or higher to 9, as it is a greater value.
+
+            [ 0, 6, 6, 6, 9, 9 ]
+
+        For the last object the first weight that can posibly change is index 5, which has a value of 6 which is greater than 5.
+        So it is not replaced.
+
+        For index 5 you look at the items value (5) plus the value in the array at index 1 (0)
+            which results in a total value of 5, which is less than 9 so it does not get replaced.
+
+        At index 6, we add our item value (5) with the value at index 2 (6) which is 11.
+        This is greater than the value stored in index 6 (9) so it is replaced with 11.
+
+        The array in this case is a table that stores precomputed maximum values.
+
+        This means that the work of calculating the max at each weight below the max weight only needs to be done once.
+
+        Hense the runtime is:
+            O(nW) where n is the number of elements
+                    and W is the weight limit
+
+            This runtime is called a "Pseudo-Polynomial Runtime" solution.
+            A true polynomial runtime only has the variable of n effecting the runtime.
+
+        
+        Note: Polynomail runtime algorithms are much quicker than exponential runtime algorithms for big numbers so it is generally faster.
+
+
+
+The Knapsack problem shows the beauty of a technique called Dynamic Programming.
+Dynamic Programing:
+    A complex problem like finding the max value for a weight limit, can be ran much faster by breaking it down
+    into sub problems.
+
+    The sub problems here was finding the max value for smaller weights.
+
+    You begin by solving for something like a base case.
+    
+    Base Case:
+        - the smallest computation. (compute values for one item)
+        - A probelm that is very simple/trivial to compute
+        - Starting with one object, finidng the maximum possible value for any weight is simple.
+
+    Another common feature of a Dynamic Programming Solution is a LookUp Table that stores solutions to sub-problems.
+    We stored the maximum values for different weight limits in our lookup table.
+
+    Dynamic Programming Solutions take advantage of these two things:
+        1) Solving the Problem for a trivial case, and storing the solution in a lookup table.
+        2) Using the lookup table to slowly add complexity to the problem.
+
+    Another feature of a Dynamic Program Solution is an Equation used at each step as
+    you add complexity.
+
+    For the Knapsack problem the equation was something like:
+
+        Value of weight limit = Value of current object + Value in table at (weight limit - current object)
+        11 = 5 + 6
+
+        It combines values previously computed in the lookup table, with either each other, or with the new introduced value.
+
+    Using values already stored in the lookup table, is a technique often called Memoization.
+    This allows us to avoid recomputing values every time.
+
+
+    Done well, the Dynamic Programing Technique often leads to solutions that are very efficient.
+
+    It is one of the most useful skills to have when going into a technical interview is the
+    ability to spot a problem that has a dynamic programing solution.
+
+    Usually, a complicated problem that seems to require finding every possible combination in order to get a solution.
+    You need to ask yourself:
+        "Can I break this probelm up into subproblems?"
+        If the answer is yes, then the Problem has a Dynamic Programming Solution.
+
+
+Travelling Salesmen Problem (TSP):
+    One of the most famous problems in computer science.
+
+    Envision a Graph where all the Nodes are cities, and all the edges are roads between them.
+
+    The Problem asks,
+        What is the fastest way for our salesmen to travel between every city, and return home?
+
+        At its escence this is an optimization problem.
+
+        We escentially have a complicated graph, and we are looking for an Optimal Path/Route.
+
+        This is used in everything from Microchip Design, to DNA Sequencing.
+
+    
+
+    Problem Classification:
+
+        The travelling salesmen problem is a class of Problem called NP-Hard.
+
+        NP-Hard Problems don't have a known algorithm that can solve them in polynomial time. Ex. O(1), O(n), O(n^2)
+
+        The knapsack problem is also a NP-Hard Problem, and the solution is in Pseudo-Polynomial time. O(nW)
+        The knapsack problem has no known polynomial time solution.
+
+
+    Because the Problem is complex, there are two categories of algorithms for the solution.
+
+        Exact Algorithms:
+            - Algorithm that doesn't happen in polynomial time, but will get us an Exact Answer.
+
+        Approximation Algorithms:
+            - Don't always find the exact optimal solution, but does find a near Optimal solution,
+                and it does compute in a resonable amount of time, with some even being in Polynomial Time.
+
+    
+    Brute Force Solution:
+        Find Every possible combination of paths, and pick the best one.
+        This is actually in factorial time. O(n!) = n*(n-1)*(n-2)*....(3)(2)(1)
+
+    Dynamic Programming Solutions:
+        Even the Dynamic Programming Solution is relatively slow.
+        Held-Karp Algorithm: O( (n^2)*(2^n) )
+
+    Approximation Algorithms:
+        - Even though the approximation algorithm don't find the exact optimal path,
+            there is alot of active research into them for TSP
+
+
+        Christofides Algorithm:
+            - Algorithm works by turning a graph into a tree, where the starting node is the root
+            - it creates the tree, and traverses through it in an intelligent way.
+            - The algorithm guarrentees that the path it produces will be AT MOST 50% Longer than the shortest route/path.
+
+            - There have been some slight improvements on this for specific cases of TSP, but generally it is considered to be the best there is.
+
+    The TSP is an interesting case study for this type of difficult problem. Particularly because   
+        it has so many applications and is so widely studied.
+
+        It is important to know that these types of problems exist.
+        It is possible to get an interview question with no efficient solution.
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

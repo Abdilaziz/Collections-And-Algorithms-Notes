@@ -1,0 +1,175 @@
+https://practice.geeksforgeeks.org/courses/must-do-interview-prep/
+
+https://www.geeksforgeeks.org/dynamic-programming/#concepts
+
+
+Dynamic Programming is an algorithmic paradigm that solves a given complex problem by
+breaking it into subproblems and stores the results of subproblems to avoid computing the same
+results again.
+
+Solves complex problems in Polynomial or Pseudo Polynomial Time. 
+Example: Knapsack 0-1 problem can be solved with Dynamic Programming. It is a Pseudo-Polynomail Solution O(nW) where W is the weight limit.
+
+Two Main properties that suggest that the given problem can be solved using Dynamic Programming:
+
+    1) Overlapping subproblems
+    2) Optimal Substructure
+
+
+Overlapping subproblems
+
+    Like Divide and conquer, Dynamic Programming combines solutions to sub-problems. Dynamic programming
+    is mainly used when solutions of same subproblems are stored in a table so that they don't need to be recomputed.
+    This makes Dynamic programming not useful when there is no common subproblem.
+
+    Example:
+        fibonachi sequence algorithm with recursion is
+
+        int fib (int n) {
+            if (n <= 1)
+                return n;
+            return fib(n-1) + fib(n-2);
+        }
+
+        If we do fib(5), When you look at the recursion tree, fib(3) and fib(2) is called multiple times.
+        Instead of recalculating it every time, we can store them to be reused.
+        There are two different ways to store these values.:
+            1)  Memoization (Top Down)
+                Memoized version is similar to the recursive version with the addition of a lookup table
+                before computing solutions.
+                Whenever you need the solution of a subproblem, we first look into the lookup table. If its precomputed
+                use that value, if not, we calculate it and put the result in the table.            
+
+            2)  Tabulation (Bottom Up)
+                Tabulated program for a given problem builds a table in bottom up fashion and returns the last entry from table.
+                Ex.
+                    First calculate Fib(0), then fib(1), then (2), etc.
+
+            Both Tabulated and Memoized store the solutions of subproblems. In Memoized version, table is filled on demand while 
+            in Tabulated version, starting from the first entry, all entries are filled one by one.
+            This means all entries of the lookup table are not necessarily filled in Memoized version.
+
+Optimal Substructure
+
+    A given Optimal Substructure Property if optimal solution of the given problem can be optained by using optimal solutions of its
+    subproblems.
+
+    Example: Shortest Path
+        
+        If a node, x, lies in the shortest path from a source node, u, to destination node, v, then the shortest path from u to v is
+        the combination of the shortest path from u to x and shortest path from x to v.
+
+        On the otherhand, the longest path doesn't have the Optimal Substructure property.
+            q - r
+            |   |   
+            s - t   
+        Longest Path (without cycling) from q to t is: q -> r -> t and q -> s -> t.
+        However the Optimal Substructure doesnt exist because the longest path from q to r and the longest path from r to t isn't
+        the longest path from q to t....
+        The longest path from r to t is r -> q -> s -> t.
+
+Tablulation vs Memoization
+    Tabulation is Bottom Up and Memoization is Top Down.
+    Bottom Up is starting from the bottom and cumulating answers to the top. It starts with the base case and works its way up.
+    Defined by state transition
+    Example: Factorial
+        // Tabulated version to find factorial x.
+        int dp[MAXN];
+
+        // base case
+        int dp[0] = 1;
+        for (int i = 1; i< =n; i++)
+        {
+            dp[i] = dp[i-1] * i;
+        }
+
+    Memoized - Top down
+    Start at dp[n] and work you way to the base state.
+        Example:
+            // Memoized version to find factorial x.
+            // To speed up we store the values
+            // of calculated states
+
+            // initialized to -1
+            int dp[MAXN]
+
+            // return fact x!
+            int solve(int x)
+            {
+                if (x==0)
+                    return 1;
+                if (dp[x]!=-1)
+                    return dp[x];
+                return (dp[x] = x * solve(x-1));
+            }
+
+    Some DP Problems having 2D memory layout like Min Cost Path. https://www.geeksforgeeks.org/min-cost-path-dp-6/
+
+
+Solving a DP Problem:
+    1) Identify if it is a DP problem
+        All DP problems satisfy the overlapping subprolmens property and most classic DP problems satisfy the optimal substrcutre property.
+        Typically they require maximizing or minimizing certain quantities or counting problems that  say count the arrangements under certain
+        condition or certain probability problems can be solved by using Dynamic Programming.
+
+    2) Decide a state expression with least parameters
+        DP Problems are all about state transitions. It must be done carefully based on the choice of state definition you make.
+        State can be defined as the set of parameters that can uniquely identify a certain position or standing in the given problem.
+        Set of prameters should be as small as possible to reduce state space.
+        Example:
+            Knapsack problems state can be identified by index and weight. DP[index][weight] tells us max profit it can make by taking items
+            from the capacity of sack to be weight.
+
+    3) Formulate relation among states
+
+        Example: [1,3,5] - how many ways can we form a number 'N' using the sum of the three given numbers?
+            You can form 6 in 8 ways.
+
+            Lets think about (n=1), (n=2), (n=3), etc.
+            The value of n here is our state. It lets us know where what subproblem we are trying to solve.
+            At each n, we can only add 1, 3, or 5.
+            Example: if we want to find out how to get n=7.
+                We do (n=6) +1, (n=4)+3, and (n=2)+5
+                state(n) = state(n-1) + state(n-3) + state(n-5)
+
+                // Returns the number of arrangements to 
+                // form 'n' 
+                int solve(int n) 
+                { 
+                // base case 
+                if (n < 0) 
+                    return 0; 
+                if (n == 0) 
+                    return 1; 
+
+                return solve(n-1) + solve(n-3) + solve(n-5); 
+                }	 
+
+    4) Do tabulation (or add memoization)
+        Code above is exponential, so add memoization or tabulation  so that we can get the state from memory.
+    
+
+
+Problems
+
+
+Number of paths from top left to bottom right of a mXn matrix:
+https://www.geeksforgeeks.org/count-possible-paths-top-left-bottom-right-nxm-matrix/
+
+
+
+
+
+Longest Common Subsequence
+https://www.geeksforgeeks.org/longest-common-subsequence-dp-4/
+
+
+
+
+
+Longest Increasing Subsequence
+https://www.geeksforgeeks.org/longest-increasing-subsequence-dp-3/
+
+
+Property in Dynamic Programming
+

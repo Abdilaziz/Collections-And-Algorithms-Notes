@@ -1,0 +1,42 @@
+# coding=utf-8
+
+# Using names.txt (right click and 'Save Link/Target As...'), a 46K text file 
+# containing over five-thousand first names, begin by sorting it into alphabetical order. 
+# Then working out the alphabetical value for each name, multiply this value by its 
+# alphabetical position in the list to obtain a name score.
+
+# For example, when the list is sorted into alphabetical order, COLIN, which is 
+# worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list. So, COLIN would obtain 
+# a score of 938 × 53 = 49714.
+
+# What is the total of all the name scores in the file?
+
+# Solution:
+#   1) read file and store into data structure (list)
+#   2) sort the datastructure
+#   3) sum up the list and calc the score
+
+# All names are capitals so mod 65 of value to get number for letter
+
+def getScores(names):
+    totalScore = 0
+    for i in range(1,len(names)+1):
+        name = names[i-1]
+        letterVal = 0
+        for j in range(len(name)):
+            letterVal += ord(name[j])%65 +1
+        totalScore += letterVal*i
+    return totalScore
+
+
+file = open("names.txt", "r") # read file
+if file.mode == 'r':
+    contents = file.read()
+    contents = contents.split(",") # list of names with quotes "KING"
+    for i in range(0,len(contents)):
+        contents[i] = contents[i].strip('\"')
+    contents.sort()
+    print getScores(contents)
+
+
+# getScores(['AB'])

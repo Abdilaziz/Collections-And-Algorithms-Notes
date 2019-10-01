@@ -1,0 +1,102 @@
+
+
+Properties of Collections in general:
+
+1. Collections dont have a particular order. Shuffling items around doesnt make a huge difference.
+2. We can't say (gimme the 3rd item of this collection) because there is no inherant order.
+3. Don't need to have the same type of object.
+4. A collection on its own isn't something that can be used in a programming language, but there are many data structures
+    that are extentions of collections. (have more rules that those that apply for collections in general)
+
+
+Some implementations and specifics can vary depending on the programming lanugage used.
+
+Each type has their own set of rules and Advantages/Disadvantages
+
+
+List Based Collections:
+    Array
+    Linked List
+        - Singlely Linked
+        - Doubley Linked
+    Stacks: (implemented with Linked List)
+    Queue: (implemented with Linked List)
+        - Enqueue
+        - Priority Queue
+
+Hashing
+	- uses a hash function to input the value and get a key for faster access of elements
+	- efficient mapping depends on the has function used
+	- load factor (number of keys stored / size of array) is used to determine how complexity of insertion and search will change from O(1)
+	- if two values end up with the same key, collision needs to be handled
+		- seperate chaining (each cell is a linked list, add onto that linked list)
+		- open addressing (all are stored in table itself, so at all times size of table >= total number of keys)
+			- index mapping (each position corresponds to a key in the universe)
+			- next index (put value into next free index) (can lead to clustering (takes time to look for empty spot))
+				- Linear probing: If slot hash(x) % S is full, then we try (hash(x) + 1) % S
+				- Quadratic probing: If slot hash(x) % S is full, then we try (hash(x) + 1*1) % S
+			- Double hashing: If slot hash(x) % S is full, then we try (hash(x) + 1*hash2(x)) % S
+Tree
+   Binary Tree 
+	- Node has data, pointer to left child
+	- pointer to right child
+	- 
+   Binary Search Tree 
+	- left subtree only contains nodes with keys less than the current
+	- right subtree has nodes with greater keys
+	- worst case of BST is when tree is skewed so it can get to O(n)
+   Heap (Max-Heap or Min-Heap) https://www.geeksforgeeks.org/binary-heap/
+	- key present at root node is either max or min
+	- property is the same for all sub-trees in that Binary tree
+	- used to implement priority queues (which is used in some graph algorithms like Dijkstras shortest path and Prim's minimum spanning tree)
+	- used to implement K'th largest element in an array, merge K sorted arrays, sort an almost sorted array
+	- Binary Heap is filled at all levels (and is min-heap or max-heap)
+   Red-Black Tree (Self-balancing Binary Search Tree) 
+	- every node is red or black
+	- root is always black
+	- no two adjacent red nodes (red node doesnt have red parent or child)
+	- every path from a node (including root) to any of its descendant NULL node has the same number of black nodes
+	- search, max, min, insert, delete, etc.. (O(h) - height of tree)
+	- if we make sure height of tree remains O(logn) after every insert, we have an upper bound of  O(logn) for all operations
+	- height is always O(logn)
+   AVL Tree (Self-balancing binary search tree)
+	- difference between heights of left and right subtrees cannot be more than one for all nodes
+	- keep height low as possible so tree operations can be O(logn)
+	AVL vs RED-BLACK
+	- AVL has faster lookups than red-black trees (due to more strickly balanced)
+	- red-black has faster insertion and removal operations than AVL trees (fewer rotations due to relaxed balancing)
+	- AVL stores balance factors or heights in each node, so more storange for an integer per node, where red-black tree only requires 1 bit of info per node
+	- red-black trees are used in most language libraries like map, multipmap, multiset in C++ whereas AVL trees are used in databases where fast retrievals are required
+   Splay Tree (self balancing binary search tree) https://www.geeksforgeeks.org/splay-tree-set-1-insert/
+	- bring the recently accesssed item to root of the tree (so most recently searched item is O(1)
+	- strength is in locality of reference (typical apps, 80% of access is to 20% of the items)
+	- all operations run O(logn) average and Theta(n) time in worst case
+	- search is same as BST, but then it splays (moves node to root), else last node accessed prior to reaching the NULL is splayed and becomes the new root
+   BTree (self-balancing search tree)
+	- Most self-balancing search trees assume everything is in memory
+	- B-Trees are great when visualizing a huge amount of data that cant fit into main memory
+	- Disk access time is high when compared to memory access time
+	- Idea of b-tree is to reduce the number of disk accesses
+	- search, insert, delete, max, min, is all O(h) disk accesses
+	- height is kept low by putting max number of keys in a B-Tree node (equal to diskk block size)
+	- if h is low, total disk accesses is reduced significantly
+	- All leaves are att the same level
+	- defined by minum degree 't', which depends on block size
+	- every node except root contains at least t-1 keys, root contains min of 1
+	- all nodes (including root) may contain at most 2t-1 keys
+	- number of children for a node is equal to number of keys in it plus 1
+	- all keys are sorted in increasing order (child between keys k1 and k2 contains keys in range from k1 and k2)
+	- B-Tree grows and shrinks from root while Binary Search tree grow and shrink from downward (bottom)
+	- like other BST, time complexity for search, insert, and delete is O(logn)
+   K-D Tree (K-Dimensional Tree)
+	- binary search tree where data in each node is a K-Dimensional point in space
+
+
+
+Maps
+
+
+
+
+
+

@@ -1,0 +1,91 @@
+Lists (in general)
+
+Some implementations and specifics can vary depending on the programming lanugage used.
+
+
+Properties:
+
+1. Is a collection (group of things) but they have an order.
+2. No fixed length.
+
+Types of Lists:
+    Array:
+        Characterised By: (Each element has an Index)
+        
+            Each Array has a location called an Index. (number of place of object in an array starting from 0)
+            Has postives and negatives. If we want to access something in the middle frequently, and array is great.
+                This means accessing an Object is always O(1)
+
+            But Insertion and deletion is messy when it is inbetween already defined objects. It is also a pain when appended to the end of an array in a programming language where arrays are of a fixed length.
+        
+            Insertion Involves: inserting new object at the index desired. Shifting all the other elements over 1.
+                This means that Inserting is dependant on the length of the Array.
+                * Inefficient (Worst case is O(n) )
+
+            Deletion Invovles: removing object at the index desired. shifting all other elements over 1 to remove the empty space.
+                This means that Deletion is dependant on the length of the Array.
+                * Inefficient (Worst case is O(n) )
+
+        Note: Things like a having a fixed (predefined) length and only having objects of one type in an array depend on the programming language and thus are not standard rules for Arrays.
+
+    Linked Lists
+
+        Note: In higher level programming languages there is no distinction between Arrays and Linked Lists, just a Data Type with the Concepts of Both. Both store a value. An array stores an index and a Linked List stores a reference to the next element.
+
+        Characterised By: (Each element has a reference to the next element)
+
+            A Linked list is another type of List (meaning it has an order), but there are no indicies (Next element isnt at the next index either) (NOT AN ARRAY)
+
+            Postives and Negatives:
+
+            Insertion Involves: Iterating to the location of insertion. Assigning the new object a next element refrence. Changing the reference of the next element for the object before the insertion point.
+                Process is now constant time due to not being required to Iterate over every element like for an Array.
+
+            Deletion Invovles: Similar to insertion. Just changing the next refrence of the object before the deletion point to the one after.
+
+        There are also doubly linked lists, where a refrence to the next element and the previous element are saved.
+
+    
+    Stacks: Last In - First Out
+
+        Characterised By: Refrence to Top and Last in First Out method of adding and removing new elements
+
+        Useful when you only care about the most recent elements, or the order in which you see and save elements actually matters.
+        Ex: A news feed where most recent elements need to be accessed more quickly and frequently, but all elements need to be shown when the user scrolls down.
+
+        Use Terms: Push and Pop instead of Insert and Delete.
+            Both are constant time O(1) since we only care about the top element (most recent)
+
+        The concept of a Stack is still abstract andc can be implemented by another data type due to how each item and how they are connected are specified, only the method for adding and removing  elements.
+
+        Implementing a Stack with a linked List can be done by:
+            Keeping a refrence to the top of the stack.
+            Each item in the stack has a refrence to the next element.
+
+            Adding an element only invovles making the top refrence the next for the new item and the new item becoming the new Top.
+
+    Queue: First In - First Out
+
+        Oldest Elements are removed first.
+
+        First element in the Queue is also the Oldest Element. It is called the Head.
+        The Last Element in the Queue is the Newest Element. It is the Tail.
+
+        Use Terms: Enqueue when adding to the Queue (new element added to the tail)
+                    Dequeue when removing from the Queue (remove from the Head). 
+                    Peek when you look at the head element, but don't actually remove it.
+
+        Implementing a Queue can also be done with a Linked List.
+
+        Save a reference to the head and tail, and each elements next is the reference to the next oldest object.
+
+    
+        Deques (Pronounced Deck) Double Ended Queue.
+            A Deque is a queue that goes both ways (You can enque or dequeue from either end of the queue).
+            If you think about it a Deque is a generalized stack and a queue because they can both be represented depending on where you decide to add and remove elements from. (Stacks add and remove from same end, while queues add and remove from opposite ends)
+
+        Priority Queue
+            Each element also includes a numerical priorty when it is enqueued.
+            When you deuque, you remove the element with the highest priorty.
+            When 2 elements have the same priority, the oldest one is dequeued first.
+

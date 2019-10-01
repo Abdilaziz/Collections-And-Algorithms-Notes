@@ -1,0 +1,406 @@
+Trees
+
+    A data structure that is somewhat similar to a Linked List (has references to the other objects).
+    A tree starts at the root, has data added called branches. Trees also have leafs. A collection of Trees is called a Forest.
+
+    Each element in a linked list has a value, and the reference to the next object.
+
+    A tree object is similar.
+
+    The starting element is called a Root.
+    A tree can have many different next references.
+
+    Each element that contains data is called a Node.
+
+    Constraints on Trees:
+
+    1) A tree must be completely connected. This means that from the root, 
+        there must be some way to reach every node in the Tree.
+
+    2) A tree must have no cycles. This means the connections cannot allow  you to go to the same node twice.
+
+
+    Terminology:
+
+    Trees have Levels.
+
+    Level: The root is Level 1. And nodes under it are Level 2, and so forth.
+
+    Nodes in a Tree are described as having a Parent/Child Relationship.
+
+    Nodes that share a parent are called Siblings.
+
+    A related node at a Higher level is called an Ancestor, while a related node at a lower level is called a Descenendant.
+
+
+    Nodes at the bottom of the tree, that have no children, are called Leafs/External Nodes.
+
+    A parent of a Leaf is called an Internal Node.
+
+    A connection from one Node to another is an Edge.
+
+    A group of connections together is called a Path.
+
+    The Height of a Node is the number of Edges between it and the furthest Leaf on the Tree.
+
+    Example. A Leaf has a height of 0. Its parent is a Hight of 1.
+    
+    The Height of a tree is the Height of the Root Node.
+
+    The Depth of a Node is the number of Edges to the Root. (or Level -1)
+
+    Height and Depth are inversely related.
+
+
+
+
+Tree Traversal:
+
+    For a List based data structures, we go through the list in order to ensure we go through every single element.
+
+    Trees aren't linear in the same way, so there is no clear way to traverse everything.
+
+    Example: When you start at the root, which branch do you take first? Should it go by level, or by branch?
+
+    We can't search or sort a Tree structure without being able to iterate to every node.
+
+    There are 2 approaches to tree traversal.
+
+    Depth-First Search (DFS):
+
+        If there are children nodes to explore, exploring them is the priority.
+    
+
+    Breath-First Search (BFS):
+
+        Visit every node on the level you are currently on before child nodes.
+
+    The definitions for BFS and DFS are kind of vague since we can apply their principles, but actually
+    traverse the tree in several ways.
+
+
+    Ex.          D
+            B        E
+        A      C        F
+
+    Level Order Traversal:
+        For Trees, a Level Order Traversal is a BFS with a more exact algorithm to implement.
+
+        By convention you start on the leftmost side for Level traversal and move right.
+
+        Would result in visiting in the order: (D, B, E, A, C, F)
+
+
+    Pre-Order Traversal:
+        This is a DFS because we vist all children first.
+        The 'Pre' means check off a node as soon as you see it, and before you traverse any further in the tree.
+
+        As you are traversing a tree, you check the node as soon as you see it the first time, because when all of its children are visted, you traverse back to this same node.
+
+        There are other methods of tree traversal that check off a node after you have already visited their children, so this stands out.
+
+        Ex. After D, B, A are traversed, you go back to B and then visit C.
+
+        Would result in the order:
+            ( D, B, A, C, E, F )
+
+
+    In-Order Traversal:
+        This is a DFS algorithm, so nodes are traversed in the same order as Pre-Order Traversal.
+        
+        This method however, only checks off a Node after we have visited its left child and come back to it.
+
+        Ex. We start at the root, but we only check nodes once we revisit it.
+
+        This results in
+        (A, B, C, D, E, F) as the order for traversal.
+    
+        This is called In-Order because nodes are visited from leftmost to the right.
+
+
+    Post-Order Traversal:
+
+        This is another DFS Traversal Algorithm.
+    
+        This time, we will only check off a Node after we have seen all of its descendants.
+
+        This results in:
+                    (A, C, B, F, E, D)
+
+
+
+Binary Trees:
+
+    Trees where parents have, at most, 2 children.
+    That means nodes have either 0, 1, or 2 children.
+
+
+    Search of a Binary Tree:
+
+        We can use any of the Traversal Algorithms to go through the tree in search of a particular value.
+        This is exactly like you would a list that isn' sorted, which results in O(n)
+
+    Delete:
+        
+        A delete operation starts off with a search, to reach the Node we wish to delete.
+
+        If the Node we wish to delete is a Leaf, we can just remove the reference from its parent.
+
+        However if we delete a node in the middle of the tree, we will have a gap that needs to be fixed.
+
+        If the node has only 1 child, that child can be moved up to take its position.
+
+        However if the node as 2 children, we could choose either node to promote up to become the new parent.
+
+        The last situation is when you wish to delete a Node with 2 children, whose children also have 2 children.
+
+        IN this situation, we whould need to traverse the list until a leaf is reached.
+        When a leaf is reached we can just have it take the place of the deleted node due to the fact that this tree has no required order.
+        
+        This is a linear time operation: O(n)
+
+
+    Insert:
+        Inserting an element into a tree when it has no order is relatively easy.
+
+        If its a Leaf, or its a Parent with only 1 child, inserting a new node is simple.
+
+        When a node has 2 children already, we need to keep traversing through the tree, until we find a Node that has an open spot for 1 child.
+
+        How long will it take to find an open spot?
+
+        A binary tree doubles its number of nodes with each new level.
+
+        A tree with a total of 3 levels has the capacity to hold 2^3 -1 = 7 Nodes
+
+        This means finding an open spot in a tree will take log(n) time. Due to the number of nodes in each level doubling.
+
+
+
+A Tree is inherently not very organized.
+When we use a Tree, we know what the overall structure is, but not where a specific element will be.
+
+We can add more rules about the ordering of elements in a Tree to accomplish certain tasks really fast.
+
+There are certain common tree types with specific rules regarding the ordering of elements.
+
+
+Binary Search Tree:
+
+    A More Specific kind of tree than a Binary Tree. 
+    A BST is a Binary Tree (Parents have at most 2 children).
+    How the values associated with each node are arranged follow a specific rule.
+
+    Sorting Rule:
+        Every Node on the Left is smaller than the current node, and every node on the right is larger.
+
+        Ex.                  5
+                        3          8
+                    1           7      10
+
+        From left to right this is from least to greatest ordering.
+
+    Having a Tree that is sorted allows us to do operations like Searching, Inserting, and Deleting much quicker.
+
+    Ex. Searching for 7 Here means that we can just compare 7 to 5 and understand that we need to check the node on the right because 7 is greater than 5.
+
+    We don't need to traverse through the entire tree in order to find a value, we can search 1 node per level.
+    This means that Search through a BST is related to the Level of our Tree.
+    Meaning that Searching a BST is O(log(n))
+
+
+    Inserting:
+        Seraching for the location where we should insert a new node is much quicker due to the Tree being Sorted.
+
+        As long as comparissons are done correctly, we can safely place a new Node without violating a core BST property.
+        
+        O(log(n))
+
+    Deleting:
+        This is a bit complicated in the same way as a generic Binary Tree.
+
+
+
+    Complications:
+        BSTs are nice to look at when they are full, but they don't necessary need to look that way.
+
+        Ex.    5
+                   10
+                       15
+                           20
+
+        The above example is a completely legitimate BST because it isn't violating any of the rules.
+        This binary Tree is called Unbalanced since the distribution of Nodes is skewed to the right.
+
+        A structure like this can occur in any Subtree of a BST and not only at the root.
+
+        An Unbalance tree this this at the Root is the Worst Case for a BST.
+        Because of Each Level only having 1 Node, our Search, Insert, and Delete algorithms all take Linear time.
+            O(n)
+
+    Thus a BST on Average is O(log(n)), and at worst is O(n)
+
+
+
+Heap:
+
+    Another type of Tree with some of its own additionl rules.
+
+    There are Max Heaps and Min Heaps.
+    1) Elements are arranged in increasing or Decreasing Order such that the root element is either the Max or the Min value of the tree.
+        Max Heaps:
+            1) have the highest value in the root.
+            2) Parent must always have a greater value than its child.
+
+        Min Heaps:
+            1) have the lowest value in the root.
+            2) Parent must have a lower value than its child.
+    
+    2) Heaps are not required to be Binary Trees, so they can have any number of children.
+        This means that operations like Search, Insert, and Delete can vary alot based on the type of Heap.
+
+    Binary Heap:
+        A Heap that also follows the 2 child rule of a Binary Tree.
+
+        Additionally, a binary heap must be a complete tree, meaning all levels except for the last one must be completely full.
+
+        If the last level isn't totaly full, elements are added from left to right.
+        The right most leaf for the level will be empty until the whole row has been filled.
+
+        In a Max Heap, the max value can be acquired in constant time.
+        In a Min Heap, the min value can be acquired in constant time.
+
+        Searching:
+            In a BST we know whether to search to the left or the right by comparing the value to the node,
+            however in a heap, where the root is always the max or min, we don't know which direction to search.
+
+            This means that Search is always O(n)
+
+            We can however use techniques like:
+            If we have a Max Heap, and we are searching for a value higher than the root, we know it doesn't exist in the Heap.
+            
+            With a Heap being required to be complete, we can also:
+            In general, if our node value is bigger than the one we are comparing it to, we don't need to search anything in its sub-tree.
+
+            Worst Case: O(n)
+            Average: O(n/2) which is approx: O(n)
+
+        Inserting:
+            
+            We can insert a new Value when an open space for it already exists without violating any of the Heap rules,
+            but lets say we want to insert a node that doesn't have space for it already existing.
+
+            What we do is insert the new node in the next available open area, and then Heapify.
+
+            When inserting, this means we compare the newly added value to the parent, and if it is greater, we swap their positions.
+
+            Worst Case: O(log(n)) - Moving the new value all the way up the tree
+
+        Heapify:
+            The process of adjusting the order of your Heap to ensure it follows the Rules of the Heap
+            i.e: Max Heap: parent is greater value than children
+                 Min Heap: parent is lower value than children
+
+        Deleting/Extract:
+            When we want to remove a Node like the root, we can replace the roots value with
+            the element in the right most spot, and then Heapify.
+
+            This means compare the value to its children, and just swap accordingly.
+
+            Worst Case: O(log(n)) - Moving the value all the way down the tree
+
+        
+    Implementation:
+
+        Even though heaps are represented as Trees, they are actually often stored as Arrays.
+
+        Example: A sorted array in Ascending order (first index is lowest value) can represent
+                    a Min Heap.
+                We know that the first element of the array is the root, the next 2 values are its children, the next 4 are in the next level, and so on.
+
+        An array is used because it takes up smaller space than keeping a Node object for a tree.
+        An element for a tree requires the value, refrences to children, and parents.
+        An element for an array requires only the value, and its index.
+
+
+Self-Balancing Trees:
+
+    Balanced Tree:
+        Nodes are condensed to be within a few Levels
+
+    Un-Balanced Tree:
+        Nodes are spread out to be in multiple levels
+        In the extreme case, it can just look like a linked list, 1 node per tree level
+
+    
+    A Self-balancing tree tries to minimize the number of levels in the tree.
+
+    This works through the algorithms for implementing Insertion and Deletion to keep itself balanced.
+
+    The Nodes themselves may also have some additional properties depending on the type of Self-Balancing Tree.
+
+    Red-Black Tree:
+        An Extention of a Binary Search Tree. (lower values to left, higher values to right)
+
+        1) Nodes are asigned another color property of either red or black in order to seperate nodes into two groups.
+        2) A Red-Black tree also uses null leaf nodes. Every node that doesn't have 2 children, has a null leaf node.
+
+        Null leaf nodes are black.
+
+        3) If a node is red, both of its children must be black.
+
+        4) Optional rule: the root node must be black.
+
+        5) Every path from a node, to its descendant null nodes, must contain the same number of black nodes.
+
+
+        Insertion:
+            
+            There are several different of states of the tree that require different courses of action when inserting a Node.
+
+            Note: Needs to follow rules from both Red-Black Tree and Binary Search Tree when inserting is complete
+
+            Key to insertion:
+                1) Try to insert Nodes as a Red Node only.
+
+            Case 1: Inserting First node into the Tree.
+                This is going to be the root. It will be black if we are following the rule of the Root Node always being black.
+
+            Case 2: Inserting under the root node.
+                Next we can make the node we are inserting red and with the null nodes, we are adhereing to the rule of Red-Black Trees.
+
+            Case 3: Inserting to a already Red Node.
+                If a Parent and its sibling are both red, they should be changed to black, and the grandparent of the node being inserted
+                should be red. This maintains the number of black nodes in every path.
+
+                If the grandparent is the root, changing it to Red could have violated a property, we can just treat the grandparent as a newly inserted
+                node, and change it or its ancestors according to the same cases and rules.
+
+                If just changing the root node when it is the grandparent back to black is enough to follow all of the Red-Black tree rules, we can make that change.
+
+            Case 4: Nodes parent is Red, and its sibling is Black.
+                We need to perform a Tree Rotation.
+                In a Tree Rotation, a group of Nodes are shifted around in a way that changes the structure of the tree, but not the order of the nodes.
+                It will still be a BST, so elements are still following the strict order.
+
+                When the newly inserted red node is a Right child, and its red parent is a left child,
+                we perfrom a Left rotation. We shift nodes one place to the left, while still maintating their order.
+
+            Case 5: Red Inserted Node, and Red Parent are on the same side of their parents.
+                
+                Do a Right Rotation involving the grandparent and both of its children.
+                Swap the color of the red parent the grandparent as well.
+                
+                That re-arranges the nodes without changing the number of black nodes in any path.
+
+            When these cases are followed, the Red-Black Tree is self-balancing.
+
+            Insert is O(log(n)) in the Average and Worst case. This is because BST could be O(n) when they are Unbalanced, but Red-black trees can't be.
+
+
+            
+
+
+
+
+

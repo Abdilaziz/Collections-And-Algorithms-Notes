@@ -1,0 +1,295 @@
+Graph Notes:
+
+
+Example Problem: Have data on websites and want to search through them with what sites have links to eachother?
+
+What is best for modeling connections between web pages?
+What does this connection web look like?
+
+
+A Graph is a data structure designed to show relationships between objects.
+
+Graphs are also sometimes called a Network.
+
+It is similar to a tree in many ways.
+The vocabular for Nodes/Verticies is the same. Connections are also called Edges.
+
+
+Infact, Trees are a Specific Type of Graph.
+
+
+A Path in a Graph starts somewhere and follows the connections from one Node to another.
+
+Many starting and end points are possible, so there is no concept of a 'Root Node' like in Trees
+
+
+It is important to keep a Graphs definition somewhat vauge so that it can encompase all the different usecases.
+
+For Example: It would be nice to say that Nodes are the parts of graphs that store data and that the edges are just the connections, but that isn't true.
+            Edges can also store data too, Usually values of a cost asociated with the connection.
+
+
+What an edge represents in an example could vary greatly.
+Ex: If Nodes were people, the edges could be people who have met eachother, or live in the same city, or worked togheter.
+    Edges could show how often people talk to eachother, etc.
+
+
+Graphs have some additional properties that make them useful for modelling various types of data.
+
+Edges can have a Direction, meaning a relationship between 2 nodes only applies one way and not the other.
+
+A 'Directed Graph' is the term used to describe a graph where edges have a direction.
+
+It is always possible to have more than one edge between 2 nodes. So we can have a directed edge going back and forth between 2 Nodes.
+
+An 'Undirected Graph' has no sense of direction.
+
+Ex: A graph that has nodes for people, and edges as their working together, has no reason to include direction.
+
+
+Cycle
+    A cycle happens in one graph when a path taken results in starting at one node and following edges all the way back to the starting node.
+
+    Graphs with a Cycle can be really dangerous when working on algorithms. When searching for a specific node in a graph for example,
+    we don't want to keep searching the same nodes over and over again.
+
+    Cycles result in an infinite loop for these types of algorithms.
+
+    Some algorithms require that your graph has no cycles, or is 'Acyclic'.
+
+    Acyclic is a graph with no Cycles.
+
+
+
+Directed Acyclclic Graph (DAG)
+    A type graph that tends to show up often.
+    
+    A Graph that has edges with directions, as well as no cycles.
+
+
+
+Connectivity:
+    Has a special meaning in terms of 'Graph Theory'
+
+    A Disconnected Graph has some vertex/Node that can't be reached by the other Nodes/vertices.
+
+    A Connected Graph has no disconnected verticies/nodes
+
+    Connectivity is a meteric used to describe a graph as a whole.
+
+    It describes the minimum number of elements that need to be removed for a graph to become disconnected.
+
+    The answer can sometimes be used to answer the question of which graph is stronger.
+
+    Ex. A Graph where each node is connected to each other, vs, a graph where each node only has one connection.
+    The Connectivity for the first is very high, where as if one edge was removed from the second graph, the graph would no longer be connected.
+
+Disconnected:
+
+Disconnected graphs are very similar whether the graph's directed or undirected—there is some vertex or group of vertices 
+that have no connection with the rest of the graph.
+
+Weakly Connected:
+
+A directed graph is weakly connected when only replacing all of the directed edges with undirected edges can cause it to be connected. 
+Imagine that your graph has several vertices with one outbound edge, meaning an edge that points from it to some other vertex in the graph. 
+There's no way to reach all of those vertices from any other vertex in the graph, but if those edges were changed to be undirected 
+all vertices would be easily accessible.
+
+Connected:
+
+Here we only use "connected graph" to refer to undirected graphs. In a connected graph, there is some path between one vertex and every other vertex.
+
+Strongly Connected:
+
+Strongly connected directed graphs must have a path from every node and every other node. So, there must be a path from A to B AND B to A.
+
+
+
+Graph Representation:
+
+
+    Graphs could be functionaly the same, but built in a handfull of different ways.
+
+    In Object Oriented Programing Languages:
+        Create Vertex/Node Object and a Edge Object.
+        Vertex/Node:
+            Properties: Name, id number, etc.
+            List of Edges connected.
+        Edge:
+            Strengh, id number, etc.
+            List of Verticies/Nodes connected.
+        
+        Opertaions that traverse graphs however can be more inconvinent 
+        if you need to search through vertex and edge objects.
+
+        There are various ways we can represent connections on simple graphs that only use Lists.
+
+    Representing Edges:
+        Edge Lists:
+
+            0 -  1         Edges List of this graph is:
+              /  |          [[0,1], [1,2], [1,3], [2,3]]
+            3  -  2
+
+            The numbers used in an Edge List usually correspond to id numbers for each Vertex/Node
+
+            Because this is a list of lists, it is called a 2D List.
+        
+        Adjacency List:
+
+            An Adjacency list for the graph above is:
+            Each index of the array is the id of a list that represents 
+            the edges for each node.
+            Ex. Node with id 1 has edges to nodes with id 0,2,3
+
+            id:0   id:1       id:2       id:3
+            [ [1] ,  [0,2,3] , [1,3] ,    [1,2] ]
+            Again this is a 2D List.
+
+        Adjacency Matrix:
+            A matrix is a 2D List/Array, where the lists inside are all the same length.
+
+            A matrix is also called a rectangular array.
+                id: 0,id:1, id:2 id:3
+            id:0   [[0,  1,  0,  0],
+            id:1   [1,  0,  1,  1],
+            id:2   [0,  1,  0,  1],
+            id:3   [0,  1,  1,  0]]
+
+            Indicies in the outer array still represent Nodes with those IDs.
+            The lists inside still represent which nodes are adjacent.
+            Now the List inside just stores a 1 in the index where the connection exists.
+
+            Ex. Node 0 has only 1 connection with Node 1, so there is a 1 in the column for Node 1 in the list for Node 0.
+
+            Note: The Index where the row number is equal to the column number is always 0.
+
+            Note: Each edge is represented twice in the matrix.
+                    Ex. Edge between 0 and 1 is represented in the list for Node 0 and the list for Node 1.
+
+
+        The method of representation used depends on what makes the most sense, and what operations you use the most often.
+
+        Ex. If we frequently calculate the Node Degree, or the number of edges connected to a particular node, 
+            The Adjacency List is probably the fastest.
+            (only involves the index of the node we want, and the length of the list we find in that index represents the number of connections)
+
+
+Graph Traversal:
+
+    Graphs are great for modelling connections between elements.
+    Graph traversal is similar to tree traversal.
+
+    Two basic methods for traversal are Depth-First Search, and Breadth-First Search.
+
+    Depth-First Search (DFS):
+        Search through one path as far as it goes.
+
+        Keep in mind that Graph Search and Graph Traversal are roughly the same thing.
+
+        Unlike a tree, a graph has no root node.
+        We can begin at any Node in a Graph.
+
+        Be sure to mark the node selected as Seen, so we know if we end up back at the same node.
+
+        Common implementations of DFS use a Stack to keep track of nodes already seen.
+
+        1) Follow one edge and mark that node as seen. (add it to a stack)
+        2) Keep going until you reach a node you have already seen before.
+           At this point you can go back to the previous node and try another edge. (pop stack and see another edge on this node)
+        3) Continue this until the stack is empty, or you have found the Node you are searching for.
+
+        There are also common implementations that use recursion instead of a stack.
+            Base Case: Pick an edge and mark a node as seen until you run out of new nodes to explore.
+                    Then when no more is found, return the result and the previous function is continued.
+        
+        In this Implementaiton we are visiting every Edge and Vertex/Node once.
+        Therefore there is a O( |E| + |V| ). It is technically 2|E| due to visiting edges twice when you return to it.
+
+        The number of edges on its own tends to summarize the runtime pretty well, but the time taken to look up a Node/Vertex is accounted for by |V|
+        The time taken to find a Vertex varies depending on the choice of data structure, so be sure to base it on the specific implementation when asked.
+
+    Breadth-First Search (BFS): 
+        Search through all adjacent nodes before moving onto the next level.
+
+        1) Start at first node and mark it as seen.
+        2) Visit edge and mark it as seen. (we can then add this node to a queue if we haven't seen it yet)
+        3) Keep visiting adjacent nodes and add them to the Queue.
+        4) When you are out of edges, we can dequeue and use that as our next starting point.
+
+        We are still visitng every node and edge so
+        the efficiency is still O( |E| + |V| )
+
+        
+
+Notable Types of Paths:
+
+    Path is just a specific route you take in a traversal/search.
+
+    A Path could be crated that travels through every graph at least once.
+    This type of path is called a Eulerian Path.
+
+    Eulerian Path:
+        Traverse each edge at least once.
+        In a basic Eulerian path:
+            1) Start at one node.
+            2) Traverse through all edges.
+            3) You might end up at a different node.
+
+    Eulerian Cycle:
+        Traverse every edge once and only once, and end up at the same node you started with.
+
+    Note: 
+        Not every graph can possibly have a Eulerian Path/Cycle. In many graphs you will get stuck on an 
+        outer Node, and won't be able to reach the other Nodes without travelling over an edge you have aleady seen.
+
+    Trick for determining wether a Eulerain Cycle is Possible:
+        Eueler has stated that Graphs only have Eulerian Cycles if all
+        Verticies/Nodes have an Even Degree/ an Even number of edges connected to them.
+
+    Eulerian Paths are a little more leniant:
+        It is okay for a graph to have 2 Nodes with an Odd Degree, as long as they 
+        are the start and End Node of the Path.
+
+    
+    Algorithm for determining Eulerian Cycles:
+        1) Start at any vertex/node until you return back to that vertex.
+        2) If you didn't encounter every edge, start from an unseen edge connected to a node you alread visited.
+        3) Create a path through those unseen edges and repeat.
+
+        This process can be continued until every edge in the graph has been seen once.
+        Then the paths could be added togehter combining them in the nodes they have in common
+
+        This algorithm is really efficient:
+            O( |E| )
+            since it visits every edge once
+    
+    Hamiltonian Paths:
+
+        A type of path that must go through every Vertex/Node once and only once rather than Edge.
+
+    Hamiltonian Cycle:
+        Will start and end in the same Vertex/Node
+
+        Trying to decide wheter a graph has a Hamiltonian Path is a famous issue in computer science
+        called the Hamiltonian Path Problem.
+
+        If you have a Circuit than you ahve a path. To make the path you just remove an edge.
+
+        There is no generall theorem that tells if a Hamiltonian Path or circuit possible, you kinda
+        just have to try.
+
+        Vertex Visiting issue is the "Travelling salesman" problem.
+            Ex. 5 Cities and we want to go to each city once, and roads don't matter
+
+        Some Rules:
+            A simple Graph (n vertices where n>=3) is Hamiltonian if every
+            vertex has a degree n/2 or greater.
+            Basically means you have lots of edges from every vertex so a only hitting
+
+        
+
+
+
+
