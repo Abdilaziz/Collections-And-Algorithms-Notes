@@ -10,10 +10,40 @@ import math
 
 # Note: // operator is floor division (rounds down)
 
+
+# gcf(x,y,z) = gcf( gcf(x,y), z)
 def gcd(a, b):
     if a == 0:
         return b
     return gcd(b%a, a)
+
+print generalizedGCD(5, [2,4,6,8,10])
+print generalizedGCD(5, [1,2,3,4,5])
+
+def generalizedGCD(num, arr):
+    # Validate Inputs
+    if num != len(arr):
+        return 0
+    
+    # assuming the list is sorted, the last index has the max value
+    maxValue = arr[num-1]
+    primeNumbers = getPrimeNumbers( maxValue )
+    # print primeNumbers
+    index = 0
+    commonPrimeFactors = [1]
+    while num > 0:
+        distinctPrimes = getDistictPrimeFactors( arr[num-1], primeNumbers)
+        # print "Distinct Primes: " + str(distinctPrimes)
+        # keep track of intersection of the two sets
+        if len(arr) == num:
+            commonPrimeFactors = distinctPrimes
+        else:
+            commonPrimeFactors = list(set(commonPrimeFactors) & set(distinctPrimes))
+        print "Disitinct Primes: " + str(distinctPrimes)
+        num -= 1
+    maxCommonPrime = max(commonPrimeFactors)
+    # print "Max Common Prime: " + str(commonPrimeFactors)
+    return maxCommonPrime
 
 # we need lowest common multiple of the set [1 - 20]
 # LCM of 2 numbers is:
@@ -183,36 +213,22 @@ def primeFactorizationNOD(number, listOfPrimeNumb):
 
     return numberOfDivisors
 
-# If you want Number of distinct prime factors
+# If you want Number of distinct (unique) prime factors
 # private int NumberOfPrimeFacors(int number) {
-#     int nod = 0;
-#     bool pf;
-#     int remain = number;
- 
-#     for (int i = 0; i < primeList.Length; i++) {
-#         // In case there is a remainder this is a prime factor as well
-#         // The exponent of that factor is 1
-#         if (primeList[i] * primeList[i] > number) {
-#             return ++nod;
-#         }
- 
-#         pf = false;
-#         while (remain % primeList[i] == 0) {
-#             pf = true;
-#             remain = remain / primeList[i];
-#         }
-#         if (pf){
-#             nod++;
-#         }
- 
-#         //If there is no remainder, return the count
-#         if (remain == 1) {
-#             return nod;
-#         }
-#     }
-#     return nod;
-# }
+def getDistictPrimeFactors(num, primeNumbers):
+    distinctPrimes = [1]
+    remain = num
+    for i in range(0, len(primeNumbers)):
+        
+        isPrimeFactor = False
+        while (remain%primeNumbers[i] == 0 ):
+            remain = remain/primeNumbers[i]
+            isPrimeFactor = True
+        if isPrimeFactor == True:
+            distinctPrimes.append(primeNumbers[i])
 
+    return distinctPrimes
+    
 
 
 # Sum of divisors
