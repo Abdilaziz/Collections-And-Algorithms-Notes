@@ -43,7 +43,7 @@ Trees
 
     The Height of a Node is the number of Edges between it and the furthest Leaf on the Tree.
 
-    Example. A Leaf has a height of 0. Its parent is a Hight of 1.
+    Example. A Leaf has a height of 0. Its parent is a Hight of 1. 
     
     The Height of a tree is the Height of the Root Node.
 

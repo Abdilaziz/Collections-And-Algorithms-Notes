@@ -6,7 +6,7 @@ class Element(object):
 class LinkedList(object):
     def __init__(self, head=None):
         self.head = head
-
+    """ add element to end of linked list  """
     def append(self, new_element):
         current = self.head
         if self.head:
@@ -15,7 +15,7 @@ class LinkedList(object):
             current.next = new_element
         else:
             self.head = new_element
-
+    """ get element in position (first index is 1)  """
     def get_position(self, position):
         counter = 1
         current = self.head
@@ -27,7 +27,7 @@ class LinkedList(object):
             current = current.next
             counter += 1
         return None
-
+    """ insert new element in position  """
     def insert(self, new_element, position):
         counter = 1
         current = self.head
@@ -41,7 +41,7 @@ class LinkedList(object):
         elif position == 1:
             new_element.next = self.head
             self.head = new_element
-
+    """ delete element with value """
     def delete(self, value):
         current = self.head
         previous = None

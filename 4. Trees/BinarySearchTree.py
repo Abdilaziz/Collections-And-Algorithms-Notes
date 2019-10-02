@@ -24,7 +24,7 @@ class BST(object):
                 current.left = Node(new_val)
 
     def search(self, find_val):
-        return False
+        return self.search_helper(self.root, find_val)
 
 
     def search_helper(self, current, find_val):

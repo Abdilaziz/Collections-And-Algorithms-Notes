@@ -16,13 +16,14 @@ Each type has their own set of rules and Advantages/Disadvantages
 
 List Based Collections:
     Array
-    Linked List
+		- indexed list of values, can access any value in the array (indexed)
+    Linked List - each has reference to next (or previous if doubly)
         - Singlely Linked
         - Doubley Linked
-    Stacks: (implemented with Linked List)
-    Queue: (implemented with Linked List)
-        - Enqueue
-        - Priority Queue
+    Stacks: (implemented with Linked List) - First In Last Out
+    Queue: (implemented with Linked List) - First In First Out
+        - Enqueue - (enqueue and dequeue from begining and end of list)
+        - Priority Queue (ordered by priority, same priority means that first in is first out)
 
 Hashing
 	- uses a hash function to input the value and get a key for faster access of elements
@@ -37,10 +38,24 @@ Hashing
 				- Quadratic probing: If slot hash(x) % S is full, then we try (hash(x) + 1*1) % S
 			- Double hashing: If slot hash(x) % S is full, then we try (hash(x) + 1*hash2(x)) % S
 Tree
+	Traversal
+	- Depth-First Search: Explore children nodes before same level
+		- Pre-Order Traversal
+			- Visit all children first
+			- 'Pre' means check off the node as soon as you see it
+		- In-Order Traversal
+			- Checks off nodes after we visited its left child and come back to it
+		- Post-Order Traversal
+			- checks off node after all its descendants have been seen	
+
+	- Breadth-First Search: Visit every node on the level you are currently on before child nodes
+	 	- Level Order Traversal
+		 	- Go by level, by convention start on the leftmost side and move right
+
    Binary Tree 
 	- Node has data, pointer to left child
 	- pointer to right child
-	- 
+	- Not organized (so finding and deleting operations are O(n) )
    Binary Search Tree 
 	- left subtree only contains nodes with keys less than the current
 	- right subtree has nodes with greater keys
@@ -92,9 +107,154 @@ Tree
 	- binary search tree where data in each node is a K-Dimensional point in space
 
 
+Graphs (sometimes called a Network)
+	- Data Structure designed to show relationships between objects (Generalization of a Tree)
+	- Has Nodes/Vertices and Connections called Edges
+	- No concept of a root node like a tree
 
-Maps
+	- Both Nodes and Edges can store data (Edges usually store a cost associated with that connection)
+	- Edges can represent many things
 
+	- Edges can have a direction (relationships can be one way) and is called a 'Directed Graph'
+	- Can be a back and forth edge 
+	- 'Undirected Graph' has no sense of direction
+
+	- Cycle: path taken ends up following edges all the way back to the starting node
+		- can be dangerous for search algorithms looking for a specific node (can lead to infinite loop)
+
+	- Acyclic graph has no cycles
+
+	- Most graphs are Directed Acyclic Graph (DAG): has edges with directions, but no cycles
+
+	- Disconnected Graph (vertex/node that can't be reached) vs Connected Graph (has no disconnected vertices/nodes)
+	- Connectivity is a metric used to describe a graph as a whole. (measure of elements need to be removved to become disconnected)
+	- Strongly Connected: directed graphs must have path from every node to every other node (from A to B and from B to A)
+
+	Graph Representation:
+		- Create Vertex/Node Object
+			- Properties (name,id,number,etc.), and list of edges connected
+		- Create Edge Object
+			- (strength, id number, etc.) and list of verticies/nodes connected
+		- Operations to traverse a graph can be inconvienent if you need to search through vertex and edge objects
+			0 -   1         
+               /  |        
+            3  -  2
+		- Edge List: [[0,1], [1,2], [1,3], [2,3]]
+			- id numbers for each vertex/node (2D list)
+		- Adjacency List: [ [1] ,  [0,2,3] , [1,3] , [1,2] ]
+			- index is id for each edge node (2D list)
+		- Adjacency Matrix:
+			id: 0,id:1, id:2 id:3
+            id:0   [[0,  1,  0,  0],
+            id:1   [1,  0,  1,  1],
+            id:2   [0,  1,  0,  1],
+            id:3   [0,  1,  1,  0]]
+		- Best representation depends on what operations you use the most often (calc number of edges easy with adjacency list)
+
+	Traversal
+		- Depth-First Search (DFS): 
+			- Mark nodes as seen so we know when we are back at the same node
+			- Use a stack for what you have seen
+				1) Follow edge and mark node as seen (add to stack)
+				2) keep going until you reach a node you have seen before
+					- if seen before, go back to prev node (pop) and check other edge
+				3) continue until stack is empty (or you find Node you are searching for)
+			- Can also use recursion instead of a stack
+				- base case: pick edge and mark as seen until you run out of new nodes to explore
+			- Visiting every edge and vertex ( O( |E| + |V| ) ) ( Technically 2|E| due to visiting edges twice when you return )
+		- Breadth-First Search (BFS):
+			- search through all adjacent nodes before next level (Use a queue for what you have seen)
+				1) start at first node and mark as seen
+				2) visit edge and mark it seen (add node to a queue if you haven't seen it yet)
+				3) keep visiting and adjacent nodes and add them to the queue
+				4) when out of edges, dequeue and use that as our next starting point
+				O( |E| + |V| )
+		
+	Paths (Route taken in traversal/search)
+		- Eulearian Path: path that goes to every edge in graph (can end at a different node)
+			- Okay for graph to have 2 Nodes with an Odd Degree as long as they are the start and end node of the path
+		- Eulerian Cylce: traverse every edge once and only once (end up at node you started with)
+			- Graphs have a Eulerian cycle if all vertices/nodes have an even number degree (even numb of edges)
+			1) Start at any vertex/node until you return back to that vertex.
+			2) If you didn't encounter every edge, start from an unseen edge connected to a node you alread visited.
+			3) Create a path through those unseen edges and repeat.
+			O( |E| )
+		- Hamiltonian Paths: go through every Vertex/Node once and only once rather than edge (end at same node)
+			- figuring out if hamilton path exists is a famous computer science problem (Hamiltonian Path Problem)
+			- if a circuit exists than you have a path (remove an edge)
+		- Hamiltonian Cycle:
+			- Vertex visiting issue is called the "Travelling salesman" problem
+			Some Rules:
+				A simple Graph (n vertices where n>=3) is Hamiltonian if every
+				vertex has a degree n/2 or greater.
+				Basically means you have lots of edges from every vertex so a only hitting
+
+	Algorithms:
+		- Shortest Path	
+			- Non-weigthed Graph: Breadth-First Search (lowest number of nodes between start and end)
+			- Weighted Graph (Undirected) : Dijkstra's Algorithm (find path with sum of edges being a minimum)
+				1) Use a min priority queue rather than a queue in algorithm and extract min
+				2) starts with start node in queue with a value of 0 (rest are infinite)
+				3) visit nodes edges and update each ones distance value in the min priority queue
+					- if you can decrease the distance, do it
+				4) extact min again and keep going (algorithm is called greedy because we constatly check min distance)
+					NOTE: Greedy means we choose an option based on what looks best at this specific moment
+			O ( |V| ^2 ) - worst case you visit every node in graph twice
+			With optimizations however:
+			O( |E| + |V|*log( |V| )  )
+
+Caches
+	- improves performance
+	- used to hold recent/often used data in memory locations that are faster or computationally cheaper to access
+	- when cache is full, we need a way to choose which times to discard in orde rto make room for others
+
+	- Average Memory Reference time is 
+		T = m*Tm + Th + E 
+		m = miss ratio (1-hit ratio)
+		Tm = time to make a main memory access when there is a miss (or with a multi level cache, avg time to for next-lower cache)
+		Th = latency time to reference cache (same for hits and misses)
+		E = various secondary effects (queue effects in multiprocessor systems)
+
+	- Hit Ratio describes how often a searched-for item is actually found in the cache
+	- more efficient replacement policies keep track of more usage information in order to improve hit rate (for a given cache size)
+	- Latency is how long after a request for a desired item from the cache can return that item
+		- faster replacement strategies typically keep track of less usage information
+
+	- Each cache replacement strategy is a tradeoff between hit rate and latency
+
+	- Consider these for each policy:
+		- items cost:
+			-	keep items that are expensive to obtain (long time to get from database etc..)
+		- items taking up more cache:
+			-	if items have different size, the cache may want to discard a large item to store several smaller operations
+		- items that expire with time:
+			-	(news cache, DNS cache, web browser cache, etc.) can discard information when it is expired
+	
+
+	Ideal Cache algorithm
+		Belady's Algorithm
+		- Most efficient would be if we could predict and discard information that will not be needed for the longest time in the
+			future
+	Basic algorithms
+		- FIFO
+			- like a queue, discard first block accesed without regard to how often it was accessed
+		- FILO
+			- evicts the block accessed most recently
+		- Last Recently Used (LRU)
+			- Discards least recently used items first
+			- 
+		- Time aware least recenlty used (TLRU)
+			- LRU variant that stored content in cache has a valid life time (TimeToUse) TTU
+		- Most Recenlty Used (MRU)
+			- discard most recently used
+			- most useful in situations where the older an item is, the more likely it is to be accesed
+		- Pseudo-LRU (PLRU)
+			- CPU caches with large associativity have a large cost for LRU (becomes prohibitive)
+			- Lower overhead than LRU (lower hit rate, but also better latency)
+		- Least Frequently used
+			- discard least often first (stores how many times each item was accessed)
+		- Least Frequent Recently Used (LFRU)
+			- Combo of least frequent and least recently (used for Content Delivery Networks, Information centric networking, etc.)
 
 
 

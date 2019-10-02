@@ -19,3 +19,8 @@ def quicksort(array, begin=0, end=None):
         _quicksort(array, begin, pivot-1)
         _quicksort(array, pivot+1, end)
     return _quicksort(array, begin, end)
+
+
+a = [3,57,7,8,5,3]
+quicksort(a)
+print a
