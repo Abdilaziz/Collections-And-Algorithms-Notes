@@ -37,6 +37,14 @@ class BST(object):
                 return self.search_helper(current.left, find_val)
         return False
     
+    # in order traversal
+    def print_tree(self, current):
+        if current.left:
+            self.print_tree(current.left)
+        print(current.value)
+        if current.right:
+            self.print_tree(current.right)
+    
     
 # Set up tree
 tree = BST(4)
